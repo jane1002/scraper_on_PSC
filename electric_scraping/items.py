@@ -24,6 +24,7 @@ class FlElectricScrapingItem(scrapy.Item):
     docket_title = scrapy.Field()
     docket_link = scrapy.Field()
 
+
 # tx site
 
 
@@ -47,3 +48,13 @@ class TxDownloadItem(scrapy.Item):
     file_urls = scrapy.Field()
     files = scrapy.Field()
 
+
+class CADocketLevelItem(scrapy.Item):
+    docket_num = scrapy.Field()
+    filed_by = scrapy.Field()
+    industry = scrapy.Field()
+    filling_date = scrapy.Field()
+    category = scrapy.Field()
+    current_status = scrapy.Field()
+    description = scrapy.Field()
+    staff = scrapy.Field()

@@ -14,7 +14,7 @@ import os
 
 from scrapy.pipelines.files import FilesPipeline
 
-from electric_scraping.items import TxItemLevelItem
+from electric_scraping.items import TxItemLevelItem, CADocketLevelItem, TxDocketLevelItem
 
 
 class ElectricScrapingPipeline:
@@ -46,10 +46,11 @@ class TXDocketLevelPipeline:
         self.writer.writeheader()
 
     def process_item(self, item, spider):
-        self.writer.writerow(item)
-        # content = json.dumps(dict(item), ensure_ascii=False) + "\n"
-        # self.file.write(content)
-        return item
+        if isinstance(item, TxDocketLevelItem):
+            self.writer.writerow(item)
+            # content = json.dumps(dict(item), ensure_ascii=False) + "\n"
+            # self.file.write(content)
+            return item
 
     def close_spider(self, spider):
         self.file.close()
@@ -113,3 +114,24 @@ class MyFilesPipeline(FilesPipeline):
 #     def _store_in_thread(self, file):
 #         file.seek(0)
 #         self.blob_service.create_blob_from_stream( self.container, self.filename, file)
+
+
+class CADocketLevelPipeline:
+    def __init__(self):
+        # self.file = open('fl_docket_result.json', 'w')
+        self.file = open('ca_docket_result01.csv', 'w')
+        self.fieldnames = ["docket_num", "filed_by", "industry", "filling_date", "category",
+                           "current_status", "description", "staff"]
+
+        self.writer = csv.DictWriter(self.file, fieldnames=self.fieldnames)
+        self.writer.writeheader()
+
+    def process_item(self, item, spider):
+        if isinstance(item, CADocketLevelItem):
+            self.writer.writerow(item)
+            # content = json.dumps(dict(item), ensure_ascii=False) + "\n"
+            # self.file.write(content)
+            return item
+
+    def close_spider(self, spider):
+        self.file.close()
