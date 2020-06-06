@@ -18,11 +18,11 @@ class FlElectricScrapingItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
     docket_num = scrapy.Field()
-    docket_info_link = scrapy.Field()
+    # docket_info_link = scrapy.Field()
     date_docketed = scrapy.Field()
     CASR_approved = scrapy.Field()
     docket_title = scrapy.Field()
-    docket_link = scrapy.Field()
+    # docket_link = scrapy.Field()
 
 
 # tx site
@@ -30,7 +30,7 @@ class FlElectricScrapingItem(scrapy.Item):
 
 class TxDocketLevelItem(scrapy.Item):
     docket_num = scrapy.Field()
-    docket_link = scrapy.Field()
+    # docket_link = scrapy.Field()
     filings = scrapy.Field()
     utility = scrapy.Field()
     description = scrapy.Field()

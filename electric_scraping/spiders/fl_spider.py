@@ -1,3 +1,6 @@
+import time
+import urllib
+
 import scrapy
 import csv
 from scrapy import Selector, FormRequest
@@ -26,8 +29,8 @@ class FlSpider(scrapy.Spider):
 
         frmdata = {
             'radioValue': 'Date',
-            'fromDate': '05/01/2020',
-            'toDate': '05/25/2020',
+            'fromDate': '06/01/2017',
+            'toDate': '06/01/2020',
             'command': 'Search'
         }
         yield FormRequest(url, callback=self.parse, formdata=frmdata)
@@ -46,8 +49,8 @@ class FlSpider(scrapy.Spider):
 
             # col1: docket number + suffix
             docket_num = sel.xpath('//tr/td[1]/a/text()').get()
-            electric_suffix = ('EC', 'EG', 'EI', 'EU')
 
+            electric_suffix = ('EC', 'EG', 'EI', 'EU')
             if str(docket_num).endswith(electric_suffix):
                 docket_info_link = sel.xpath('//tr/td[1]/a/@href').get()
                 docket_info_link = f'{self.baseUrl}/{docket_info_link}'
@@ -73,15 +76,25 @@ class FlSpider(scrapy.Spider):
                     docket_link = f'{self.baseUrl}/{docket_link}'
 
                 item['docket_num'] = docket_num
-                item['docket_info_link'] = docket_info_link
+                # item['docket_info_link'] = docket_info_link
                 item['date_docketed'] = date_docketed
                 item['CASR_approved'] = CASR_approved
                 item['docket_title'] = docket_title
-                item['docket_link'] = docket_link
-                # print("*******", item['docket_num'], item['docket_info_link'])
-
+                # item['docket_link'] = docket_link
                 yield item
 
+        footer_links = response.xpath('//tr[@class="gridFooter"]/td/a').getall()
+        for a_tag in footer_links:
+            footer_selector = Selector(text=a_tag)
+            a_text = footer_selector.xpath('//a/text()').get()
+            if a_text == '>':
+                base_link = 'http://www.psc.state.fl.us'
+                link = footer_selector.xpath('//a/@href').get()
+                next_link = urllib.parse.urljoin(base_link, link)
+                print('[next_link]', next_link)
+                request = scrapy.Request(next_link, callback=self.parse)
+                time.sleep(5)
+                yield request
 #         row.append(docket_num)
 #         row.append(docket_info_link)
 #         row.append(date_docketed)

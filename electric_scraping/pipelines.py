@@ -17,12 +17,14 @@ from scrapy.pipelines.files import FilesPipeline
 from electric_scraping.items import TxItemLevelItem, CADocketLevelItem, TxDocketLevelItem
 
 
-class ElectricScrapingPipeline:
+class FlDocketLevelPipeline:
     def __init__(self):
         # self.file = open('fl_docket_result.json', 'w')
         self.file = open('fl_docket_result.csv', 'w')
-        self.fieldnames = ["docket_num", "docket_info_link", "date_docketed", "CASR_approved",
-                           "docket_title", "docket_link"]
+        # self.fieldnames = ["docket_num", "docket_info_link", "date_docketed", "CASR_approved",
+        #                    "docket_title", "docket_link"]
+        self.fieldnames = ["docket_num", "date_docketed", "CASR_approved",
+                           "docket_title"]
         self.writer = csv.DictWriter(self.file, fieldnames=self.fieldnames)
         self.writer.writeheader()
 
@@ -40,8 +42,9 @@ class TXDocketLevelPipeline:
     def __init__(self):
         # self.file = open('fl_docket_result.json', 'w')
         self.file = open('tx_docket_result.csv', 'w')
-        self.fieldnames = ["docket_num", "docket_link", "filings", "utility",
-                           "description"]
+        # self.fieldnames = ["docket_num", "docket_link", "filings", "utility",
+        #                    "description"]
+        self.fieldnames = ["docket_num", "filings", "utility", "description"]
         self.writer = csv.DictWriter(self.file, fieldnames=self.fieldnames)
         self.writer.writeheader()
 

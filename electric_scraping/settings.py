@@ -67,9 +67,9 @@ ROBOTSTXT_OBEY = True
 ITEM_PIPELINES = {
    #'scrapy.pipelines.files.FilesPipeline': 1,
    # 'electric_scraping.pipelines.MyFilesPipeline': 220,
-   'electric_scraping.pipelines.TXDocketLevelPipeline': 298,
+   # 'electric_scraping.pipelines.TXDocketLevelPipeline': 298,
    # 'electric_scraping.pipelines.TXItemLevelPipeline': 299,
-   # 'electric_scraping.pipelines.ElectricScrapingPipeline': 300,
+   'electric_scraping.pipelines.FlDocketLevelPipeline': 300,
    # 'electric_scraping.pipelines.CADocketLevelPipeline': 1
 }
 
